@@ -50,8 +50,8 @@ public final class RegisterModelRequest extends RequestBase
     @Nullable
     private final String description;
 
-    @Nonnull
-    private final String modelFormat;
+    @Nullable
+    private final ModelFormat modelFormat;
 
     @Nullable
     private final String modelGroupId;
@@ -67,7 +67,7 @@ public final class RegisterModelRequest extends RequestBase
     private RegisterModelRequest(Builder builder) {
         super(builder);
         this.description = builder.description;
-        this.modelFormat = ApiTypeHelper.requireNonNull(builder.modelFormat, this, "modelFormat");
+        this.modelFormat = builder.modelFormat;
         this.modelGroupId = builder.modelGroupId;
         this.name = ApiTypeHelper.requireNonNull(builder.name, this, "name");
         this.version = ApiTypeHelper.requireNonNull(builder.version, this, "version");
@@ -89,21 +89,15 @@ public final class RegisterModelRequest extends RequestBase
     }
 
     /**
-     * Required - The portable format of the model file.
-     * <p>
      * API name: {@code model_format}
-     * </p>
      */
-    @Nonnull
-    public final String modelFormat() {
+    @Nullable
+    public final ModelFormat modelFormat() {
         return this.modelFormat;
     }
 
     /**
-     * The ID of the model group to which to register the model.
-     * <p>
      * API name: {@code model_group_id}
-     * </p>
      */
     @Nullable
     public final String modelGroupId() {
@@ -122,10 +116,7 @@ public final class RegisterModelRequest extends RequestBase
     }
 
     /**
-     * Required - The model version.
-     * <p>
-     * API name: {@code version}
-     * </p>
+     * Required - API name: {@code version}
      */
     @Nonnull
     public final String version() {
@@ -148,8 +139,10 @@ public final class RegisterModelRequest extends RequestBase
             generator.write(this.description);
         }
 
-        generator.writeKey("model_format");
-        generator.write(this.modelFormat);
+        if (this.modelFormat != null) {
+            generator.writeKey("model_format");
+            this.modelFormat.serialize(generator, mapper);
+        }
 
         if (this.modelGroupId != null) {
             generator.writeKey("model_group_id");
@@ -181,7 +174,8 @@ public final class RegisterModelRequest extends RequestBase
     public static class Builder extends RequestBase.AbstractBuilder<Builder> implements CopyableBuilder<Builder, RegisterModelRequest> {
         @Nullable
         private String description;
-        private String modelFormat;
+        @Nullable
+        private ModelFormat modelFormat;
         @Nullable
         private String modelGroupId;
         private String name;
@@ -232,22 +226,16 @@ public final class RegisterModelRequest extends RequestBase
         }
 
         /**
-         * Required - The portable format of the model file.
-         * <p>
          * API name: {@code model_format}
-         * </p>
          */
         @Nonnull
-        public final Builder modelFormat(String value) {
+        public final Builder modelFormat(@Nullable ModelFormat value) {
             this.modelFormat = value;
             return this;
         }
 
         /**
-         * The ID of the model group to which to register the model.
-         * <p>
          * API name: {@code model_group_id}
-         * </p>
          */
         @Nonnull
         public final Builder modelGroupId(@Nullable String value) {
@@ -268,10 +256,7 @@ public final class RegisterModelRequest extends RequestBase
         }
 
         /**
-         * Required - The model version.
-         * <p>
-         * API name: {@code version}
-         * </p>
+         * Required - API name: {@code version}
          */
         @Nonnull
         public final Builder version(String value) {
@@ -305,7 +290,7 @@ public final class RegisterModelRequest extends RequestBase
 
     protected static void setupRegisterModelRequestDeserializer(ObjectDeserializer<RegisterModelRequest.Builder> op) {
         op.add(Builder::description, JsonpDeserializer.stringDeserializer(), "description");
-        op.add(Builder::modelFormat, JsonpDeserializer.stringDeserializer(), "model_format");
+        op.add(Builder::modelFormat, ModelFormat._DESERIALIZER, "model_format");
         op.add(Builder::modelGroupId, JsonpDeserializer.stringDeserializer(), "model_group_id");
         op.add(Builder::name, JsonpDeserializer.stringDeserializer(), "name");
         op.add(Builder::version, JsonpDeserializer.stringDeserializer(), "version");
@@ -336,7 +321,7 @@ public final class RegisterModelRequest extends RequestBase
     public int hashCode() {
         int result = 17;
         result = 31 * result + Objects.hashCode(this.description);
-        result = 31 * result + this.modelFormat.hashCode();
+        result = 31 * result + Objects.hashCode(this.modelFormat);
         result = 31 * result + Objects.hashCode(this.modelGroupId);
         result = 31 * result + this.name.hashCode();
         result = 31 * result + this.version.hashCode();
@@ -349,7 +334,7 @@ public final class RegisterModelRequest extends RequestBase
         if (o == null || this.getClass() != o.getClass()) return false;
         RegisterModelRequest other = (RegisterModelRequest) o;
         return Objects.equals(this.description, other.description)
-            && this.modelFormat.equals(other.modelFormat)
+            && Objects.equals(this.modelFormat, other.modelFormat)
             && Objects.equals(this.modelGroupId, other.modelGroupId)
             && this.name.equals(other.name)
             && this.version.equals(other.version);
