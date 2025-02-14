@@ -128,7 +128,6 @@ After:
 - The `minScore` property has been corrected to be of type `Float` instead of `Double`.
 
 ### KnnQuery
-- The `filter` property is now of type `List<Query>` instead of `Query`.
 - The `vector` property is now of type `List<Float>` instead of `float[]`.
 
 ### LikeDocument
@@ -562,3 +561,31 @@ After:
 
 ### SearchShardsRequest
 - The `routing` property is now of type `List<String>` instead of `String`.
+
+### CompositeAggregation
+- The `after` property is now of type `Map<String, FieldValue>` instead of `Map<String, String>`.
+
+### CompositeDateHistogramAggregationSource
+- The `offset` property has been corrected to be of type `Time` instead of `Long`.
+
+### CompositeValuesSource
+- The `format` property has been removed as it only applies to certain subclasses.
+
+### InferenceConfig
+- The `InferenceConfig` class has been changed to a tagged union.
+
+### SignificantTermsAggregation
+- The `include` property is now of type `TermsInclude` instead of `List<String>`.
+
+### SignificantTextAggregation
+- The `include` property is now of type `TermsInclude` instead of `List<String>`.
+
+### XyShapeFieldQuery renamed to XyShapeQueryField
+- The `XyShapeFieldQuery` class has been renamed to `XyShapeQueryField`, this affects:
+  - `XyShapeQuery`'s `xyShape` field.
+- The `xyShape` property has been renamed to `shape` and is now of type `XyShape` instead of `JsonData`.
+
+### GeoShapeFieldQuery renamed to GeoShapeQueryField
+- The `GeoShapeFieldQuery` class has been renamed to `GeoShapeQueryField`, this affects:
+  - `GeoShapeQuery`'s `shape` field.
+- The `shape` property is now of type `GeoShape` instead of `JsonData`.

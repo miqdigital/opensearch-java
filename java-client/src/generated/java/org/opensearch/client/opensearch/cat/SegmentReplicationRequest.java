@@ -183,7 +183,7 @@ public final class SegmentReplicationRequest extends CatRequestBase
     }
 
     /**
-     * Whether to expand the wildcard expression to include concrete indexes that are open, closed, or both.
+     * Specifies the type of index that wildcard expressions can match. Supports comma-separated values.
      * <p>
      * API name: {@code expand_wildcards}
      * </p>
@@ -413,7 +413,7 @@ public final class SegmentReplicationRequest extends CatRequestBase
         }
 
         /**
-         * Whether to expand the wildcard expression to include concrete indexes that are open, closed, or both.
+         * Specifies the type of index that wildcard expressions can match. Supports comma-separated values.
          * <p>
          * API name: {@code expand_wildcards}
          * </p>
@@ -429,7 +429,7 @@ public final class SegmentReplicationRequest extends CatRequestBase
         }
 
         /**
-         * Whether to expand the wildcard expression to include concrete indexes that are open, closed, or both.
+         * Specifies the type of index that wildcard expressions can match. Supports comma-separated values.
          * <p>
          * API name: {@code expand_wildcards}
          * </p>

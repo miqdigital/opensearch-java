@@ -191,6 +191,17 @@ public class OpenApiSchema extends OpenApiRefElement<OpenApiSchema> {
     }
 
     @Nonnull
+    public Optional<String> getResolvedDescription() {
+        if (description != null) {
+            return Optional.of(description);
+        }
+        if (has$ref()) {
+            return resolve().getResolvedDescription();
+        }
+        return Optional.empty();
+    }
+
+    @Nonnull
     public Optional<Set<OpenApiSchemaType>> getTypes() {
         return Sets.unmodifiableOpt(types);
     }
@@ -453,6 +464,12 @@ public class OpenApiSchema extends OpenApiRefElement<OpenApiSchema> {
         @Nonnull
         public Builder withTypes(@Nullable Set<OpenApiSchemaType> types) {
             this.types = types;
+            return this;
+        }
+
+        @Nonnull
+        public Builder withOneOf(@Nullable List<OpenApiSchema> oneOf) {
+            this.oneOf = oneOf;
             return this;
         }
 

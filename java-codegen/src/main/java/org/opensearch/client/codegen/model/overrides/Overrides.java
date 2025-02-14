@@ -45,6 +45,7 @@ public class Overrides {
         .withSchemas(
             s -> s.with(schema("_common", "ByteUnit"), so -> so.withClassName("Bytes"))
                 .with(schema("_common", "Duration"), so -> so.withMappedType(Types.Client.OpenSearch._Types.Time))
+                .with(schema("_common", "DurationLarge"), so -> so.withMappedType(Types.Client.OpenSearch._Types.Time))
                 .with(schema("_common", "FieldValue"), so -> so.withMappedType(Types.Client.OpenSearch._Types.FieldValue))
                 .with(schema("_common", "StringifiedBoolean"), so -> so.withMappedType(Types.Primitive.Boolean))
                 .with(schema("_common", "StringifiedDouble"), so -> so.withMappedType(Types.Primitive.Double))
@@ -52,51 +53,50 @@ public class Overrides {
                 .with(schema("_common", "StringifiedLong"), so -> so.withMappedType(Types.Primitive.Long))
                 .with(schema("_common", "StringifiedEpochTimeUnitMillis"), so -> so.withMappedType(Types.Primitive.Long))
 
-                .with(schema("_common", "DistanceUnit"), so -> so.withShouldGenerate(ShouldGenerate.Always))
-                .with(schema("_common", "GeoBounds"), so -> so.withShouldGenerate(ShouldGenerate.Always))
-                .with(schema("_common", "GeoDistanceType"), so -> so.withShouldGenerate(ShouldGenerate.Always))
-                .with(schema("_common", "GeoShapeRelation"), so -> so.withShouldGenerate(ShouldGenerate.Always))
-
                 .with(schema("_common", "ScriptSort"), so -> so.withShouldGenerate(ShouldGenerate.Always))
                 .with(
                     schema("_common", "SortOptions"),
                     so -> so.withMappedType(t -> t.withPackage(Types.Client.OpenSearch._Types.PACKAGE).withName("SortOptions"))
                 )
 
-                .with(schema("_common", "GetStats"), so -> so.withProperties(p -> p.with("getTime", po -> po.withName("time"))))
-
                 .with(
-                    schema("_common.aggregations", "AggregationContainer"),
-                    so -> so.withClassName("Aggregation").withShouldGenerate(ShouldGenerate.Never)
-                )
-
-                // TODO: Remove this once figuring out how best to handle these schemas
-                .with(schema("_common.query_dsl", "DecayFunction"), so -> so.withShouldGenerate(ShouldGenerate.Never))
-                .with(
-                    schema("_common.query_dsl", "FunctionScoreContainer"),
-                    so -> so.withShouldGenerate(ShouldGenerate.Never).withClassName("FunctionScore")
-                )
-                .with(schema("_common.query_dsl", "DistanceFeatureQuery"), so -> so.withShouldGenerate(ShouldGenerate.Never))
-                .with(schema("_common.query_dsl", "GeoBoundingBoxQuery"), so -> so.withShouldGenerate(ShouldGenerate.Never))
-                .with(schema("_common.query_dsl", "GeoDistanceQuery"), so -> so.withShouldGenerate(ShouldGenerate.Never))
-                .with(schema("_common.query_dsl", "GeoPolygonQuery"), so -> so.withShouldGenerate(ShouldGenerate.Never))
-                .with(schema("_common.query_dsl", "GeoShapeQuery"), so -> so.withShouldGenerate(ShouldGenerate.Never))
-                .with(schema("_common.query_dsl", "RangeQuery"), so -> so.withShouldGenerate(ShouldGenerate.Never))
-                .with(schema("_common.query_dsl", "RankFeatureFunctionLinear"), so -> so.withShouldGenerate(ShouldGenerate.Never))
-                .with(schema("_common.query_dsl", "RankFeatureFunctionLogarithm"), so -> so.withShouldGenerate(ShouldGenerate.Never))
-                .with(schema("_common.query_dsl", "RankFeatureFunctionSaturation"), so -> so.withShouldGenerate(ShouldGenerate.Never))
-                .with(schema("_common.query_dsl", "RankFeatureFunctionSigmoid"), so -> so.withShouldGenerate(ShouldGenerate.Never))
-                .with(
-                    schema("_common.query_dsl", "SpanGapQuery"),
-                    so -> so.withMappedType(
-                        t -> t.withPackage(Types.Client.OpenSearch._Types.PACKAGE + ".query_dsl").withName("SpanGapQuery")
+                    schema("_common", "GetStats"),
+                    so -> so.withProperties(
+                        p -> p.with("getTime", po -> po.withIgnore(true)).with("time", po -> po.withAliases(Set.of("getTime")))
                     )
                 )
-                .with(schema("_common.query_dsl", "TermsQuery"), so -> so.withShouldGenerate(ShouldGenerate.Never))
-                .with(schema("_common.query_dsl", "TermsQueryField"), so -> so.withShouldGenerate(ShouldGenerate.Always))
-                .with(schema("_common.query_dsl", "XyShapeQuery"), so -> so.withShouldGenerate(ShouldGenerate.Never))
 
-                .with(schema("_common.query_dsl", "FieldValueFactorModifier"), so -> so.withShouldGenerate(ShouldGenerate.Always))
+                .with(schema("_common.aggregations", "Aggregation"), so -> so.withClassName("AggregationBase"))
+                .with(
+                    schema("_common.aggregations", "AggregationContainer"),
+                    so -> so.withClassName("Aggregation").withShouldGenerate(ShouldGenerate.Always)
+                )
+                .with(
+                    schema("_common.aggregations", "AggregationContainer").append("allOf", "0"),
+                    so -> so.withProperties(p -> p.with("aggregations", po -> po.withAliases(Set.of("aggs"))))
+                )
+                .with(
+                    schema("_common.aggregations", "BucketsQueryContainer"),
+                    so -> so.withMappedType(
+                        Types.Client.OpenSearch._Types.Aggregations.Buckets(Types.Client.OpenSearch._Types.QueryDsl.Query)
+                    )
+                )
+                .with(
+                    schema("_common.aggregations", "ExtendedBoundsdouble"),
+                    so -> so.withMappedType(Types.Client.OpenSearch._Types.Aggregations.ExtendedBounds(Types.Java.Lang.Double))
+                )
+                .with(
+                    schema("_common.aggregations", "ExtendedBoundsFieldDateMath"),
+                    so -> so.withMappedType(
+                        Types.Client.OpenSearch._Types.Aggregations.ExtendedBounds(
+                            Types.Client.OpenSearch._Types.Aggregations.FieldDateMath
+                        )
+                    )
+                )
+                .with(schema("_common.aggregations", "InferenceConfigContainer"), so -> so.withClassName("InferenceConfig"))
+
+                .with(schema("_common.query_dsl", "FunctionScoreContainer"), so -> so.withClassName("FunctionScore"))
+
                 .with(schema("_common.query_dsl", "IntervalsContainer"), so -> so.withClassName("Intervals"))
 
                 .with(
@@ -105,6 +105,13 @@ public class Overrides {
                 )
 
                 .with(schema("_common.query_dsl", "QueryContainer"), so -> so.withClassName("Query"))
+                .with(
+                    schema("_common.query_dsl", "RangeQuery").append("allOf", "1"),
+                    so -> so.withProperties(
+                        p -> p.with("from", po -> po.withMappedType(Types.Client.Json.JsonData))
+                            .with("to", po -> po.withMappedType(Types.Client.Json.JsonData))
+                    )
+                )
 
                 .with(schema("_core.mtermvectors", "Operation"), so -> so.withClassName("MultiTermVectorsOperation"))
                 .with(schema("_core.mtermvectors", "TermVectorsResult"), so -> so.withClassName("MultiTermVectorsResult"))
