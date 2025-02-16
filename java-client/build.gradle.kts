@@ -43,7 +43,7 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        "classpath"(group = "org.opensearch.gradle", name = "build-tools", version = "3.0.0-SNAPSHOT")
+        "classpath"(group = "org.opensearch.gradle", name = "build-tools", version = "3.0.0-alpha1-SNAPSHOT")
     }
 }
 
@@ -52,7 +52,7 @@ plugins {
     `java-library`
     `maven-publish`
     id("com.github.jk1.dependency-license-report") version "2.9"
-    id("org.owasp.dependencycheck") version "12.0.0"
+    id("org.owasp.dependencycheck") version "12.0.2"
 
     id("opensearch-java.spotless-conventions")
 }
@@ -183,7 +183,7 @@ dependencies {
     val jacksonDatabindVersion = "2.17.0"
 
     // Apache 2.0
-    api("commons-logging:commons-logging:1.3.4")
+    api("commons-logging:commons-logging:1.3.5")
     compileOnly("org.opensearch.client", "opensearch-rest-client", opensearchVersion)
     testImplementation("org.hamcrest:hamcrest:3.0")
     testImplementation("com.carrotsearch.randomizedtesting:randomizedtesting-runner:2.8.2") {
@@ -191,11 +191,11 @@ dependencies {
     }
     testImplementation("org.opensearch.client", "opensearch-rest-client", opensearchVersion)
 
-    api("org.apache.httpcomponents.client5:httpclient5:5.4.1") {
+    api("org.apache.httpcomponents.client5:httpclient5:5.4.2") {
       exclude(group = "org.apache.httpcomponents.core5")
     }
-    api("org.apache.httpcomponents.core5:httpcore5:5.3.2")
-    api("org.apache.httpcomponents.core5:httpcore5-h2:5.3.2")
+    api("org.apache.httpcomponents.core5:httpcore5:5.3.3")
+    api("org.apache.httpcomponents.core5:httpcore5-h2:5.3.3")
 
     // Apache 2.0
     // https://search.maven.org/artifact/com.google.code.findbugs/jsr305

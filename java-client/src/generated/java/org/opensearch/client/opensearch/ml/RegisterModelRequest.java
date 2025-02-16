@@ -48,10 +48,16 @@ public final class RegisterModelRequest extends RequestBase
         ToCopyableBuilder<RegisterModelRequest.Builder, RegisterModelRequest> {
 
     @Nullable
+    private final String connectorId;
+
+    @Nullable
     private final String description;
 
-    @Nonnull
-    private final String modelFormat;
+    @Nullable
+    private final String functionName;
+
+    @Nullable
+    private final ModelFormat modelFormat;
 
     @Nullable
     private final String modelGroupId;
@@ -59,22 +65,35 @@ public final class RegisterModelRequest extends RequestBase
     @Nonnull
     private final String name;
 
-    @Nonnull
+    @Nullable
     private final String version;
 
     // ---------------------------------------------------------------------------------------------
 
     private RegisterModelRequest(Builder builder) {
         super(builder);
+        this.connectorId = builder.connectorId;
         this.description = builder.description;
-        this.modelFormat = ApiTypeHelper.requireNonNull(builder.modelFormat, this, "modelFormat");
+        this.functionName = builder.functionName;
+        this.modelFormat = builder.modelFormat;
         this.modelGroupId = builder.modelGroupId;
         this.name = ApiTypeHelper.requireNonNull(builder.name, this, "name");
-        this.version = ApiTypeHelper.requireNonNull(builder.version, this, "version");
+        this.version = builder.version;
     }
 
     public static RegisterModelRequest of(Function<RegisterModelRequest.Builder, ObjectBuilder<RegisterModelRequest>> fn) {
         return fn.apply(new Builder()).build();
+    }
+
+    /**
+     * The connector ID.
+     * <p>
+     * API name: {@code connector_id}
+     * </p>
+     */
+    @Nullable
+    public final String connectorId() {
+        return this.connectorId;
     }
 
     /**
@@ -89,21 +108,26 @@ public final class RegisterModelRequest extends RequestBase
     }
 
     /**
-     * Required - The portable format of the model file.
+     * The function name.
      * <p>
-     * API name: {@code model_format}
+     * API name: {@code function_name}
      * </p>
      */
-    @Nonnull
-    public final String modelFormat() {
+    @Nullable
+    public final String functionName() {
+        return this.functionName;
+    }
+
+    /**
+     * API name: {@code model_format}
+     */
+    @Nullable
+    public final ModelFormat modelFormat() {
         return this.modelFormat;
     }
 
     /**
-     * The ID of the model group to which to register the model.
-     * <p>
      * API name: {@code model_group_id}
-     * </p>
      */
     @Nullable
     public final String modelGroupId() {
@@ -122,12 +146,9 @@ public final class RegisterModelRequest extends RequestBase
     }
 
     /**
-     * Required - The model version.
-     * <p>
      * API name: {@code version}
-     * </p>
      */
-    @Nonnull
+    @Nullable
     public final String version() {
         return this.version;
     }
@@ -143,13 +164,25 @@ public final class RegisterModelRequest extends RequestBase
     }
 
     protected void serializeInternal(JsonGenerator generator, JsonpMapper mapper) {
+        if (this.connectorId != null) {
+            generator.writeKey("connector_id");
+            generator.write(this.connectorId);
+        }
+
         if (this.description != null) {
             generator.writeKey("description");
             generator.write(this.description);
         }
 
-        generator.writeKey("model_format");
-        generator.write(this.modelFormat);
+        if (this.functionName != null) {
+            generator.writeKey("function_name");
+            generator.write(this.functionName);
+        }
+
+        if (this.modelFormat != null) {
+            generator.writeKey("model_format");
+            this.modelFormat.serialize(generator, mapper);
+        }
 
         if (this.modelGroupId != null) {
             generator.writeKey("model_group_id");
@@ -159,9 +192,12 @@ public final class RegisterModelRequest extends RequestBase
         generator.writeKey("name");
         generator.write(this.name);
 
-        generator.writeKey("version");
-        generator.write(this.version);
+        if (this.version != null) {
+            generator.writeKey("version");
+            generator.write(this.version);
+        }
     }
+
     // ---------------------------------------------------------------------------------------------
 
     @Override
@@ -180,18 +216,26 @@ public final class RegisterModelRequest extends RequestBase
      */
     public static class Builder extends RequestBase.AbstractBuilder<Builder> implements CopyableBuilder<Builder, RegisterModelRequest> {
         @Nullable
+        private String connectorId;
+        @Nullable
         private String description;
-        private String modelFormat;
+        @Nullable
+        private String functionName;
+        @Nullable
+        private ModelFormat modelFormat;
         @Nullable
         private String modelGroupId;
         private String name;
+        @Nullable
         private String version;
 
         public Builder() {}
 
         private Builder(RegisterModelRequest o) {
             super(o);
+            this.connectorId = o.connectorId;
             this.description = o.description;
+            this.functionName = o.functionName;
             this.modelFormat = o.modelFormat;
             this.modelGroupId = o.modelGroupId;
             this.name = o.name;
@@ -200,7 +244,9 @@ public final class RegisterModelRequest extends RequestBase
 
         private Builder(Builder o) {
             super(o);
+            this.connectorId = o.connectorId;
             this.description = o.description;
+            this.functionName = o.functionName;
             this.modelFormat = o.modelFormat;
             this.modelGroupId = o.modelGroupId;
             this.name = o.name;
@@ -220,6 +266,18 @@ public final class RegisterModelRequest extends RequestBase
         }
 
         /**
+         * The connector ID.
+         * <p>
+         * API name: {@code connector_id}
+         * </p>
+         */
+        @Nonnull
+        public final Builder connectorId(@Nullable String value) {
+            this.connectorId = value;
+            return this;
+        }
+
+        /**
          * The model description.
          * <p>
          * API name: {@code description}
@@ -232,22 +290,28 @@ public final class RegisterModelRequest extends RequestBase
         }
 
         /**
-         * Required - The portable format of the model file.
+         * The function name.
          * <p>
-         * API name: {@code model_format}
+         * API name: {@code function_name}
          * </p>
          */
         @Nonnull
-        public final Builder modelFormat(String value) {
+        public final Builder functionName(@Nullable String value) {
+            this.functionName = value;
+            return this;
+        }
+
+        /**
+         * API name: {@code model_format}
+         */
+        @Nonnull
+        public final Builder modelFormat(@Nullable ModelFormat value) {
             this.modelFormat = value;
             return this;
         }
 
         /**
-         * The ID of the model group to which to register the model.
-         * <p>
          * API name: {@code model_group_id}
-         * </p>
          */
         @Nonnull
         public final Builder modelGroupId(@Nullable String value) {
@@ -268,13 +332,10 @@ public final class RegisterModelRequest extends RequestBase
         }
 
         /**
-         * Required - The model version.
-         * <p>
          * API name: {@code version}
-         * </p>
          */
         @Nonnull
-        public final Builder version(String value) {
+        public final Builder version(@Nullable String value) {
             this.version = value;
             return this;
         }
@@ -304,8 +365,10 @@ public final class RegisterModelRequest extends RequestBase
     );
 
     protected static void setupRegisterModelRequestDeserializer(ObjectDeserializer<RegisterModelRequest.Builder> op) {
+        op.add(Builder::connectorId, JsonpDeserializer.stringDeserializer(), "connector_id");
         op.add(Builder::description, JsonpDeserializer.stringDeserializer(), "description");
-        op.add(Builder::modelFormat, JsonpDeserializer.stringDeserializer(), "model_format");
+        op.add(Builder::functionName, JsonpDeserializer.stringDeserializer(), "function_name");
+        op.add(Builder::modelFormat, ModelFormat._DESERIALIZER, "model_format");
         op.add(Builder::modelGroupId, JsonpDeserializer.stringDeserializer(), "model_group_id");
         op.add(Builder::name, JsonpDeserializer.stringDeserializer(), "name");
         op.add(Builder::version, JsonpDeserializer.stringDeserializer(), "version");
@@ -335,11 +398,13 @@ public final class RegisterModelRequest extends RequestBase
     @Override
     public int hashCode() {
         int result = 17;
+        result = 31 * result + Objects.hashCode(this.connectorId);
         result = 31 * result + Objects.hashCode(this.description);
-        result = 31 * result + this.modelFormat.hashCode();
+        result = 31 * result + Objects.hashCode(this.functionName);
+        result = 31 * result + Objects.hashCode(this.modelFormat);
         result = 31 * result + Objects.hashCode(this.modelGroupId);
         result = 31 * result + this.name.hashCode();
-        result = 31 * result + this.version.hashCode();
+        result = 31 * result + Objects.hashCode(this.version);
         return result;
     }
 
@@ -348,10 +413,12 @@ public final class RegisterModelRequest extends RequestBase
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
         RegisterModelRequest other = (RegisterModelRequest) o;
-        return Objects.equals(this.description, other.description)
-            && this.modelFormat.equals(other.modelFormat)
+        return Objects.equals(this.connectorId, other.connectorId)
+            && Objects.equals(this.description, other.description)
+            && Objects.equals(this.functionName, other.functionName)
+            && Objects.equals(this.modelFormat, other.modelFormat)
             && Objects.equals(this.modelGroupId, other.modelGroupId)
             && this.name.equals(other.name)
-            && this.version.equals(other.version);
+            && Objects.equals(this.version, other.version);
     }
 }
