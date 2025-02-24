@@ -107,6 +107,11 @@ public class RequestShape extends ObjectShape {
     }
 
     @Override
+    public boolean shouldImplementJsonSerializableInner() {
+        return hasFieldsToSerialize();
+    }
+
+    @Override
     public boolean hasFieldsToSerialize() {
         return hasRequestBody();
     }
@@ -204,6 +209,7 @@ public class RequestShape extends ObjectShape {
         return !fields.isEmpty();
     }
 
+    @Override
     public boolean hasAnyRequiredFields() {
         return fields.values().stream().anyMatch(Field::isRequired);
     }
@@ -253,6 +259,7 @@ public class RequestShape extends ObjectShape {
             case "create":
             case "delete":
             case "get":
+            case "put":
             case "restore":
                 return toPascalCase(name) + toPascalCase(itemForNamespace(ns));
 

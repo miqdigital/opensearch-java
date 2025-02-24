@@ -136,7 +136,8 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
     }
 
     /**
-     * The awareness attribute for which the health is required.
+     * The name of the awareness attribute for which to return the cluster health status (for example, <code>zone</code>). Applicable only
+     * if <code>level</code> is set to <code>awareness_attributes</code>.
      * <p>
      * API name: {@code awareness_attribute}
      * </p>
@@ -147,7 +148,9 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
     }
 
     /**
-     * Operation timeout for connection to cluster-manager node.
+     * A duration. Units can be <code>nanos</code>, <code>micros</code>, <code>ms</code> (milliseconds), <code>s</code> (seconds),
+     * <code>m</code> (minutes), <code>h</code> (hours) and <code>d</code> (days). Also accepts &quot;0&quot; without a unit and
+     * &quot;-1&quot; to indicate an unspecified value.
      * <p>
      * API name: {@code cluster_manager_timeout}
      * </p>
@@ -158,7 +161,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
     }
 
     /**
-     * Whether to expand wildcard expression to concrete indexes that are open, closed or both.
+     * Specifies the type of index that wildcard expressions can match. Supports comma-separated values.
      * <p>
      * API name: {@code expand_wildcards}
      * </p>
@@ -169,8 +172,8 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
     }
 
     /**
-     * Comma-separated list of data streams, indexes, and index aliases used to limit the request. Wildcard expressions (*) are supported.
-     * To target all data streams and indexes in a cluster, omit this parameter or use <code>_all</code> or <code>*</code>.
+     * A comma-separated list of data streams, indexes, and aliases used to limit the request. Supports wildcards (<code>*</code>). To
+     * target all data streams and indexes, omit this parameter or use <code>*</code> or <code>_all</code>.
      * <p>
      * API name: {@code index}
      * </p>
@@ -181,7 +184,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
     }
 
     /**
-     * Can be one of cluster, indexes or shards. Controls the details level of the health information returned.
+     * Controls the amount of detail included in the cluster health response.
      * <p>
      * API name: {@code level}
      * </p>
@@ -192,8 +195,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
     }
 
     /**
-     * If <code>true</code>, the request retrieves information from the local node only. Defaults to false, which means information is
-     * retrieved from the cluster-manager node.
+     * Whether to return information from the local node only instead of from the cluster manager node.
      * <p>
      * API name: {@code local}
      * </p>
@@ -204,8 +206,9 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
     }
 
     /**
-     * Period to wait for a connection to the cluster-manager node. If no response is received before the timeout expires, the request fails
-     * and returns an error.
+     * A duration. Units can be <code>nanos</code>, <code>micros</code>, <code>ms</code> (milliseconds), <code>s</code> (seconds),
+     * <code>m</code> (minutes), <code>h</code> (hours) and <code>d</code> (days). Also accepts &quot;0&quot; without a unit and
+     * &quot;-1&quot; to indicate an unspecified value.
      * <p>
      * API name: {@code master_timeout}
      * </p>
@@ -217,7 +220,9 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
     }
 
     /**
-     * Period to wait for a response. If no response is received before the timeout expires, the request fails and returns an error.
+     * A duration. Units can be <code>nanos</code>, <code>micros</code>, <code>ms</code> (milliseconds), <code>s</code> (seconds),
+     * <code>m</code> (minutes), <code>h</code> (hours) and <code>d</code> (days). Also accepts &quot;0&quot; without a unit and
+     * &quot;-1&quot; to indicate an unspecified value.
      * <p>
      * API name: {@code timeout}
      * </p>
@@ -228,7 +233,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
     }
 
     /**
-     * A number controlling to how many active shards to wait for, all to wait for all shards in the cluster to be active, or 0 to not wait.
+     * Waits until the specified number of shards is active before returning a response. Use <code>all</code> for all shards.
      * <p>
      * API name: {@code wait_for_active_shards}
      * </p>
@@ -239,8 +244,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
     }
 
     /**
-     * Can be one of immediate, urgent, high, normal, low, languid. Wait until all currently queued events with the given priority are
-     * processed.
+     * Waits until all currently queued events with the given priority are processed.
      * <p>
      * API name: {@code wait_for_events}
      * </p>
@@ -251,8 +255,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
     }
 
     /**
-     * A Boolean value which controls whether to wait (until the timeout provided) for the cluster to have no shard initializations.
-     * Defaults to false, which means it will not wait for initializing shards.
+     * Whether to wait until there are no initializing shards in the cluster.
      * <p>
      * API name: {@code wait_for_no_initializing_shards}
      * </p>
@@ -263,8 +266,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
     }
 
     /**
-     * A Boolean value which controls whether to wait (until the timeout provided) for the cluster to have no shard relocations. Defaults to
-     * false, which means it will not wait for relocating shards.
+     * Whether to wait until there are no relocating shards in the cluster.
      * <p>
      * API name: {@code wait_for_no_relocating_shards}
      * </p>
@@ -275,8 +277,9 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
     }
 
     /**
-     * The request waits until the specified number N of nodes is available. It also accepts &gt;=N, &lt;=N, &gt;N and &lt;N. Alternatively,
-     * it is possible to use ge(N), le(N), gt(N) and lt(N) notation.
+     * Waits until the specified number of nodes (<code>N</code>) is available. Accepts <code>&gt;=N</code>, <code>&lt;=N</code>,
+     * <code>&gt;N</code>, and <code>&lt;N</code>. You can also use <code>ge(N)</code>, <code>le(N)</code>, <code>gt(N)</code>, and
+     * <code>lt(N)</code> notation.
      * <p>
      * API name: {@code wait_for_nodes}
      * </p>
@@ -287,8 +290,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
     }
 
     /**
-     * One of green, yellow or red. Will wait (until the timeout provided) until the status of the cluster changes to the one provided or
-     * better, i.e. green &gt; yellow &gt; red. By default, will not wait for any status.
+     * Waits until the cluster health reaches the specified status or better.
      * <p>
      * API name: {@code wait_for_status}
      * </p>
@@ -395,7 +397,8 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * The awareness attribute for which the health is required.
+         * The name of the awareness attribute for which to return the cluster health status (for example, <code>zone</code>). Applicable
+         * only if <code>level</code> is set to <code>awareness_attributes</code>.
          * <p>
          * API name: {@code awareness_attribute}
          * </p>
@@ -407,7 +410,9 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * Operation timeout for connection to cluster-manager node.
+         * A duration. Units can be <code>nanos</code>, <code>micros</code>, <code>ms</code> (milliseconds), <code>s</code> (seconds),
+         * <code>m</code> (minutes), <code>h</code> (hours) and <code>d</code> (days). Also accepts &quot;0&quot; without a unit and
+         * &quot;-1&quot; to indicate an unspecified value.
          * <p>
          * API name: {@code cluster_manager_timeout}
          * </p>
@@ -419,7 +424,9 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * Operation timeout for connection to cluster-manager node.
+         * A duration. Units can be <code>nanos</code>, <code>micros</code>, <code>ms</code> (milliseconds), <code>s</code> (seconds),
+         * <code>m</code> (minutes), <code>h</code> (hours) and <code>d</code> (days). Also accepts &quot;0&quot; without a unit and
+         * &quot;-1&quot; to indicate an unspecified value.
          * <p>
          * API name: {@code cluster_manager_timeout}
          * </p>
@@ -430,7 +437,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * Whether to expand wildcard expression to concrete indexes that are open, closed or both.
+         * Specifies the type of index that wildcard expressions can match. Supports comma-separated values.
          * <p>
          * API name: {@code expand_wildcards}
          * </p>
@@ -446,7 +453,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * Whether to expand wildcard expression to concrete indexes that are open, closed or both.
+         * Specifies the type of index that wildcard expressions can match. Supports comma-separated values.
          * <p>
          * API name: {@code expand_wildcards}
          * </p>
@@ -462,8 +469,8 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * Comma-separated list of data streams, indexes, and index aliases used to limit the request. Wildcard expressions (*) are
-         * supported. To target all data streams and indexes in a cluster, omit this parameter or use <code>_all</code> or <code>*</code>.
+         * A comma-separated list of data streams, indexes, and aliases used to limit the request. Supports wildcards (<code>*</code>). To
+         * target all data streams and indexes, omit this parameter or use <code>*</code> or <code>_all</code>.
          * <p>
          * API name: {@code index}
          * </p>
@@ -479,8 +486,8 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * Comma-separated list of data streams, indexes, and index aliases used to limit the request. Wildcard expressions (*) are
-         * supported. To target all data streams and indexes in a cluster, omit this parameter or use <code>_all</code> or <code>*</code>.
+         * A comma-separated list of data streams, indexes, and aliases used to limit the request. Supports wildcards (<code>*</code>). To
+         * target all data streams and indexes, omit this parameter or use <code>*</code> or <code>_all</code>.
          * <p>
          * API name: {@code index}
          * </p>
@@ -496,7 +503,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * Can be one of cluster, indexes or shards. Controls the details level of the health information returned.
+         * Controls the amount of detail included in the cluster health response.
          * <p>
          * API name: {@code level}
          * </p>
@@ -508,8 +515,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * If <code>true</code>, the request retrieves information from the local node only. Defaults to false, which means information is
-         * retrieved from the cluster-manager node.
+         * Whether to return information from the local node only instead of from the cluster manager node.
          * <p>
          * API name: {@code local}
          * </p>
@@ -521,8 +527,9 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * Period to wait for a connection to the cluster-manager node. If no response is received before the timeout expires, the request
-         * fails and returns an error.
+         * A duration. Units can be <code>nanos</code>, <code>micros</code>, <code>ms</code> (milliseconds), <code>s</code> (seconds),
+         * <code>m</code> (minutes), <code>h</code> (hours) and <code>d</code> (days). Also accepts &quot;0&quot; without a unit and
+         * &quot;-1&quot; to indicate an unspecified value.
          * <p>
          * API name: {@code master_timeout}
          * </p>
@@ -535,8 +542,9 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * Period to wait for a connection to the cluster-manager node. If no response is received before the timeout expires, the request
-         * fails and returns an error.
+         * A duration. Units can be <code>nanos</code>, <code>micros</code>, <code>ms</code> (milliseconds), <code>s</code> (seconds),
+         * <code>m</code> (minutes), <code>h</code> (hours) and <code>d</code> (days). Also accepts &quot;0&quot; without a unit and
+         * &quot;-1&quot; to indicate an unspecified value.
          * <p>
          * API name: {@code master_timeout}
          * </p>
@@ -548,7 +556,9 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * Period to wait for a response. If no response is received before the timeout expires, the request fails and returns an error.
+         * A duration. Units can be <code>nanos</code>, <code>micros</code>, <code>ms</code> (milliseconds), <code>s</code> (seconds),
+         * <code>m</code> (minutes), <code>h</code> (hours) and <code>d</code> (days). Also accepts &quot;0&quot; without a unit and
+         * &quot;-1&quot; to indicate an unspecified value.
          * <p>
          * API name: {@code timeout}
          * </p>
@@ -560,7 +570,9 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * Period to wait for a response. If no response is received before the timeout expires, the request fails and returns an error.
+         * A duration. Units can be <code>nanos</code>, <code>micros</code>, <code>ms</code> (milliseconds), <code>s</code> (seconds),
+         * <code>m</code> (minutes), <code>h</code> (hours) and <code>d</code> (days). Also accepts &quot;0&quot; without a unit and
+         * &quot;-1&quot; to indicate an unspecified value.
          * <p>
          * API name: {@code timeout}
          * </p>
@@ -571,8 +583,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * A number controlling to how many active shards to wait for, all to wait for all shards in the cluster to be active, or 0 to not
-         * wait.
+         * Waits until the specified number of shards is active before returning a response. Use <code>all</code> for all shards.
          * <p>
          * API name: {@code wait_for_active_shards}
          * </p>
@@ -584,8 +595,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * A number controlling to how many active shards to wait for, all to wait for all shards in the cluster to be active, or 0 to not
-         * wait.
+         * Waits until the specified number of shards is active before returning a response. Use <code>all</code> for all shards.
          * <p>
          * API name: {@code wait_for_active_shards}
          * </p>
@@ -596,8 +606,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * Can be one of immediate, urgent, high, normal, low, languid. Wait until all currently queued events with the given priority are
-         * processed.
+         * Waits until all currently queued events with the given priority are processed.
          * <p>
          * API name: {@code wait_for_events}
          * </p>
@@ -609,8 +618,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * A Boolean value which controls whether to wait (until the timeout provided) for the cluster to have no shard initializations.
-         * Defaults to false, which means it will not wait for initializing shards.
+         * Whether to wait until there are no initializing shards in the cluster.
          * <p>
          * API name: {@code wait_for_no_initializing_shards}
          * </p>
@@ -622,8 +630,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * A Boolean value which controls whether to wait (until the timeout provided) for the cluster to have no shard relocations.
-         * Defaults to false, which means it will not wait for relocating shards.
+         * Whether to wait until there are no relocating shards in the cluster.
          * <p>
          * API name: {@code wait_for_no_relocating_shards}
          * </p>
@@ -635,8 +642,9 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * The request waits until the specified number N of nodes is available. It also accepts &gt;=N, &lt;=N, &gt;N and &lt;N.
-         * Alternatively, it is possible to use ge(N), le(N), gt(N) and lt(N) notation.
+         * Waits until the specified number of nodes (<code>N</code>) is available. Accepts <code>&gt;=N</code>, <code>&lt;=N</code>,
+         * <code>&gt;N</code>, and <code>&lt;N</code>. You can also use <code>ge(N)</code>, <code>le(N)</code>, <code>gt(N)</code>, and
+         * <code>lt(N)</code> notation.
          * <p>
          * API name: {@code wait_for_nodes}
          * </p>
@@ -648,8 +656,7 @@ public final class HealthRequest extends RequestBase implements ToCopyableBuilde
         }
 
         /**
-         * One of green, yellow or red. Will wait (until the timeout provided) until the status of the cluster changes to the one provided
-         * or better, i.e. green &gt; yellow &gt; red. By default, will not wait for any status.
+         * Waits until the cluster health reaches the specified status or better.
          * <p>
          * API name: {@code wait_for_status}
          * </p>

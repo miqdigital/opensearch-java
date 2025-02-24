@@ -6,10 +6,8 @@ Inspired from [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Bumps `org.eclipse.parsson:parsson` from 1.1.6 to 1.1.7
 - Bumps `org.hamcrest:hamcrest` from 2.2 to 3.0
 - Bumps `com.github.jk1.dependency-license-report` from 2.8 to 2.9
-- Bumps `org.apache.httpcomponents.client5:httpclient5` from 5.4 to 5.4.1
-- Bumps `org.apache.httpcomponents.core5:httpcore5` from 5.3 to 5.3.2 ([#1383](https://github.com/opensearch-project/opensearch-java/pull/1383))
-- Bump `org.junit:junit-bom` from 5.11.3 to 5.11.4 ([#1367](https://github.com/opensearch-project/opensearch-java/pull/1367))
-- Bump `org.owasp.dependencycheck` from 11.1.1 to 12.0.0 ([#1381](https://github.com/opensearch-project/opensearch-java/pull/1381))
+- Bump `org.owasp.dependencycheck` from 12.0.2 to 12.1.0 ([#1440](https://github.com/opensearch-project/opensearch-java/pull/1440))
+- Bump `org.junit:junit-bom` from 5.11.4 to 5.12.0 ([#1456](https://github.com/opensearch-project/opensearch-java/pull/1456))
 
 This section is for maintaining a changelog for all breaking changes for the client that cannot be released in the 2.x line. All other non-breaking changes should be added to [Unreleased 2.x] section.
 
@@ -45,8 +43,10 @@ This section is for maintaining a changelog for all breaking changes for the cli
 ### Security
 
 ## [Unreleased 2.x]
-
 ### Added
+- Added support for the Search Pipeline APIs ([#1442](https://github.com/opensearch-project/opensearch-java/pull/1442))
+- Added support for `simple_pattern` and `simple_pattern_split` tokenizers ([#1448](https://github.com/opensearch-project/opensearch-java/pull/1448), [#1451](https://github.com/opensearch-project/opensearch-java/pull/1451))
+- Added support for the Search response `phase_took` field ([#1449](https://github.com/opensearch-project/opensearch-java/pull/1449)) 
 
 ### Dependencies
 
@@ -57,9 +57,33 @@ This section is for maintaining a changelog for all breaking changes for the cli
 ### Removed
 
 ### Fixed
-- Fixed serialization of `time_zone` field in `CompositeDateHistogramAggregationSource` ([#1362](https://github.com/opensearch-project/opensearch-java/pull/1362))
 
 ### Security
+
+## [2.21.0] - 02/14/2025
+### Added
+- Added support for `GeoDistanceQuery`'s `ignore_unmapped` property ([#1430](https://github.com/opensearch-project/opensearch-java/pull/1430))
+- Added support for docvalue_fields in msearch ([#1429](https://github.com/opensearch-project/opensearch-java/pull/1429))
+
+### Dependencies
+- Bump `commons-logging:commons-logging` from 1.3.4 to 1.3.5 ([#1418](https://github.com/opensearch-project/opensearch-java/pull/1418))
+
+### Fixed
+- Fixed serialization of `KnnQuery`'s `method_parameters` property ([#1427](https://github.com/opensearch-project/opensearch-java/pull/1427))
+- Fixed deserializing `GeoValidationMethod` enum values when uppercase ([#1431](https://github.com/opensearch-project/opensearch-java/pull/1431))
+
+## [2.20.0] - 02/04/2025
+### Added
+- Added support for `KnnQuery`'s `expand_nested_docs`, `method_parameters` and `rescore` properties ([#1407](https://github.com/opensearch-project/opensearch-java/pull/1407))
+
+### Dependencies
+- Bump `org.junit:junit-bom` from 5.11.3 to 5.11.4 ([#1367](https://github.com/opensearch-project/opensearch-java/pull/1367))
+- Bumps `org.apache.httpcomponents.client5:httpclient5` from 5.4 to 5.4.2 ([#1401](https://github.com/opensearch-project/opensearch-java/pull/1401))
+- Bumps `org.apache.httpcomponents.core5:httpcore5` from 5.3 to 5.3.3 ([#1383](https://github.com/opensearch-project/opensearch-java/pull/1383), [#1402](https://github.com/opensearch-project/opensearch-java/pull/1402))
+- Bump `org.owasp.dependencycheck` from 11.1.1 to 12.0.2 ([#1381](https://github.com/opensearch-project/opensearch-java/pull/1381), [#1393](https://github.com/opensearch-project/opensearch-java/pull/1393), [#1399](https://github.com/opensearch-project/opensearch-java/pull/1399))
+
+### Fixed
+- Fixed serialization of `time_zone` field in `CompositeDateHistogramAggregationSource` ([#1362](https://github.com/opensearch-project/opensearch-java/pull/1362))
 
 ## [2.19.0] - 12/12/2024
 ### Added
@@ -602,7 +626,9 @@ This section is for maintaining a changelog for all breaking changes for the cli
 ### Security
 
 [Unreleased 3.0]: https://github.com/opensearch-project/opensearch-java/compare/2.x...HEAD
-[Unreleased 2.x]: https://github.com/opensearch-project/opensearch-java/compare/v2.19.0...2.x
+[Unreleased 2.x]: https://github.com/opensearch-project/opensearch-java/compare/v2.21.0...2.x
+[2.21.0]: https://github.com/opensearch-project/opensearch-java/compare/v2.20.0...v2.21.0
+[2.20.0]: https://github.com/opensearch-project/opensearch-java/compare/v2.19.0...v2.20.0
 [2.19.0]: https://github.com/opensearch-project/opensearch-java/compare/v2.18.0...v2.19.0
 [2.18.0]: https://github.com/opensearch-project/opensearch-java/compare/v2.17.0...v2.18.0
 [2.17.0]: https://github.com/opensearch-project/opensearch-java/compare/v2.16.0...v2.17.0
