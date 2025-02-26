@@ -27,7 +27,7 @@ public class TaggedUnionShape extends ObjectShapeBase {
     @Nullable
     private String discriminatingField;
     private String defaultVariant;
-    private boolean externallyDiscriminated;
+    private ExternallyDiscriminated externallyDiscriminated;
 
     public TaggedUnionShape(Namespace parent, String className, String typedefName, String description, ShouldGenerate shouldGenerate) {
         super(parent, className, typedefName, description, shouldGenerate);
@@ -86,10 +86,14 @@ public class TaggedUnionShape extends ObjectShapeBase {
     }
 
     public boolean isExternallyDiscriminated() {
-        return externallyDiscriminated;
+        return externallyDiscriminated != null;
     }
 
-    public void setExternallyDiscriminated(boolean externallyDiscriminated) {
+    public boolean isOptionalExternallyDiscriminated() {
+        return externallyDiscriminated == ExternallyDiscriminated.OPTIONAL;
+    }
+
+    public void setExternallyDiscriminated(ExternallyDiscriminated externallyDiscriminated) {
         this.externallyDiscriminated = externallyDiscriminated;
     }
 
@@ -112,10 +116,19 @@ public class TaggedUnionShape extends ObjectShapeBase {
             return false;
         }
 
+        return countStringOrEnumVariants() > 1;
+    }
+
+    private long countStringOrEnumVariants() {
         return getVariants().stream().filter(v -> {
             var t = v.getType();
-            return t.isString() || t.isEnum();
-        }).count() > 1;
+            if (t.isString() || t.isEnum()) {
+                return true;
+            }
+            return t.getTargetShape()
+                .filter(shape -> shape instanceof TaggedUnionShape && ((TaggedUnionShape) shape).countStringOrEnumVariants() > 0)
+                .isPresent();
+        }).count();
     }
 
     public Collection<BuilderSetter> getContainerBuilderSetters() {
@@ -209,7 +222,7 @@ public class TaggedUnionShape extends ObjectShapeBase {
 
     public static class VariantInterface extends Shape {
         private final String unionClassName;
-        private boolean includeToUnionMethod;
+        private final boolean includeToUnionMethod;
 
         private VariantInterface(TaggedUnionShape union, ShouldGenerate shouldGenerate) {
             super(
@@ -223,7 +236,7 @@ public class TaggedUnionShape extends ObjectShapeBase {
             if (union.isInternallyDiscriminated()) {
                 setExtendsType(Types.Client.Json.JsonpSerializable);
             }
-            includeToUnionMethod = !union.hasFields();
+            includeToUnionMethod = !union.hasAnyRequiredFields() && !union.extendsOtherShape();
         }
 
         @Override
@@ -248,5 +261,10 @@ public class TaggedUnionShape extends ObjectShapeBase {
         public String toString() {
             return new ToStringBuilder(this).append("unionClassName", unionClassName).toString();
         }
+    }
+
+    public enum ExternallyDiscriminated {
+        OPTIONAL,
+        REQUIRED
     }
 }

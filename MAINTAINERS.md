@@ -6,9 +6,9 @@ This document contains a list of maintainers in this repo. See [opensearch-proje
 
 | Maintainer           | GitHub ID                                               | Affiliation    |
 | -------------------- | ------------------------------------------------------- | -------------- |
-| Andriy Redko         | [reta](https://github.com/reta)                         | Aiven          |
+| Andriy Redko         | [reta](https://github.com/reta)                         | Independent    |
 | Bukhtawar Khan       | [Bukhtawar](https://github.com/Bukhtawar)               | Amazon         |
-| Daniel Doubrovkine   | [dblock](https://github.com/dblock)                     | Amazon         |
+| Daniel Doubrovkine   | [dblock](https://github.com/dblock)                     | Independent    |
 | Dominik Szczepańczyk | [szczepanczykd](https://github.com/szczepanczykd)       | Exadel         |
 | Madhusudhan Konda    | [madhusudhankonda](https://github.com/madhusudhankonda) | Chocolateminds |
 | Sarat Vemulapalli    | [saratvemulapalli](https://github.com/saratvemulapalli) | Amazon         |
